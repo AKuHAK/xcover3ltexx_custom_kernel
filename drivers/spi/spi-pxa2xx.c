@@ -589,6 +589,10 @@ static irqreturn_t pxa2xx_spi_int(int irq, void *dev_id)
 	if (!(sccr1_reg & SSCR1_TIE))
 		mask &= ~SSSR_TFS;
 
+	/* Ignore RX timeout interrupt if it is disabled */
+	if (!(sccr1_reg & SSCR1_TINTE))
+		mask &= ~SSSR_TINT;
+
 	if (!(status & mask))
 		return IRQ_NONE;
 
