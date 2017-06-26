@@ -9,6 +9,7 @@
 #
 # Normal rules
 #
+.*
 *.o
 *.o.*
 *.a
@@ -31,7 +32,6 @@ modules.builtin
 *.lzo
 *.patch
 *.gcno
-*.dtb
 
 #
 # Top-level generic files
@@ -63,28 +63,6 @@ include/config
 include/linux/version.h
 include/generated
 arch/*/include/generated
-arch/arm/mach-msm/smd_rpc_sym.c
-scripts/basic/fixdep
-scripts/kconfig/conf
-scripts/kconfig/zconf.hash.c
-scripts/kconfig/zconf.lex.c
-scripts/kconfig/zconf.tab.c
-scripts/bin2c
-scripts/cgitinfo
-scripts/conmakehash
-scripts/dtc/dtc
-scripts/dtc/dtc-lexer.lex.c
-scripts/dtc/dtc-parser.tab.c
-scripts/dtc/dtc-parser.tab.h
-scripts/kallsyms
-scripts/mod/devicetable-offsets.h
-scripts/mod/elfconfig.h
-scripts/mod/mk_elfconfig
-scripts/mod/modpost
-scripts/pnmtologo
-scripts/selinux/genheaders/genheaders
-scripts/selinux/mdp/mdp
-scripts/sortextable
 
 # stgit generated dirs
 patches-*
@@ -104,7 +82,22 @@ GSYMS
 GTAGS
 
 *.orig
-*.rej
 *~
 \#*#
 
+# generated caf
+arch/arm/mach-msm/smd_rpc_sym.c
+
+# compressed boot files
+arch/arm/boot/compressed/ashldi3.S
+arch/arm/boot/compressed/lib1funcs.S
+arch/arm/boot/compressed/piggy.gzip
+arch/arm/boot/compressed/piggy.xzkern
+arch/arm/boot/compressed/vmlinux
+
+# ignore initramfs
+initramfs
+/*.sh
+
+# Output directory
+output/
