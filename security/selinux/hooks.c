@@ -413,6 +413,7 @@ static int selinux_is_sblabel_mnt(struct super_block *sb)
 	if (!strcmp(sb->s_type->name, "sysfs") ||
  	    !strcmp(sb->s_type->name, "pstore") ||
  	    !strcmp(sb->s_type->name, "debugfs") ||
+ 	    !strcmp(sb->s_type->name, "f2fs") ||
  	    !strcmp(sb->s_type->name, "rootfs"))
 		return 1;
 	return 0;
