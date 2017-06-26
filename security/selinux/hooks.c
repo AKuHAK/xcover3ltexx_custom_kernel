@@ -405,17 +405,16 @@ static int selinux_is_sblabel_mnt(struct super_block *sb)
 	    sbsec->behavior == SECURITY_FS_USE_TASK)
 		return 1;
 
-	/* Special handling for sysfs. Is genfs but also has setxattr handler*/
-	if (strncmp(sb->s_type->name, "sysfs", sizeof("sysfs")) == 0)
-		return 1;
-
-	/*
+	/* Special handling for sysfs. Is genfs but also has setxattr handler.
 	 * Special handling for rootfs. Is genfs but supports
 	 * setting SELinux context on in-core inodes.
+	 * Add "pstore" and "debugfs" to list of in-core exceptions
 	 */
-	if (strncmp(sb->s_type->name, "rootfs", sizeof("rootfs")) == 0)
+	if (!strcmp(sb->s_type->name, "sysfs") ||
+ 	    !strcmp(sb->s_type->name, "pstore") ||
+ 	    !strcmp(sb->s_type->name, "debugfs") ||
+ 	    !strcmp(sb->s_type->name, "rootfs"))
 		return 1;
-
 	return 0;
 }
 
