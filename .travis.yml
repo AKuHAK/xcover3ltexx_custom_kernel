@@ -1,17 +1,17 @@
 sudo: required
 before_install:
  - sudo apt-get update -qyy
- - sudo apt-get install -qyy curl bc make git build-essential
- - wget http://security.ubuntu.com/ubuntu/pool/main/u/u-boot/u-boot-tools_2016.01+dfsg1-2ubuntu3_amd64.deb -O uboot.deb
- - sudo dpkg -i uboot.deb
- - git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.8/
+ - sudo apt-get install -qyy curl bc make git build-essential u-boot-tools
+ #- wget http://security.ubuntu.com/ubuntu/pool/main/u/u-boot/u-boot-tools_2016.01+dfsg1-2ubuntu3_amd64.deb -O uboot.deb
+ #- sudo dpkg -i uboot.deb
+ - git clone https://github.com/aapav01/aarch64-linux-android-4.9-linaro
 before_script:
  - export ARCH=arm64
- - export PATH=$PATH:$PWD/aarch64-linux-android-4.8/bin/
+ - export PATH=$PATH:$PWD/aarch64-linux-android-4.9-linaro/bin/
  - aarch64-linux-android-gcc --version
 script:
 # export your own config for example
- - export CROSS_COMPILE=$PWD/aarch64-linux-android-4.8/bin/aarch64-linux-android-
+ - export CROSS_COMPILE=$PWD/aarch64-linux-android-4.9-linaro/bin/aarch64-linux-android-
  - export DEFCONFIG=akuhak_pxa1908-xcover3ltexx_defconfig
  - make -j2 $DEFCONFIG
  - make -j2 --silent
