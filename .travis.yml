@@ -1,24 +1,28 @@
 sudo: required
 before_install:
  - sudo apt-get update -qyy
- - sudo apt-get install -qyy curl bc make git build-essential u-boot-tools
- #- wget http://security.ubuntu.com/ubuntu/pool/main/u/u-boot/u-boot-tools_2016.01+dfsg1-2ubuntu3_amd64.deb -O uboot.deb
- #- sudo dpkg -i uboot.deb
- - git clone https://github.com/aapav01/aarch64-linux-android-4.9-linaro
+ - sudo apt-get install -qyy curl bc make git build-essential #u-boot-tools
+ - wget http://security.ubuntu.com/ubuntu/pool/main/u/u-boot/u-boot-tools_2016.01+dfsg1-2ubuntu3_amd64.deb -O uboot.deb
+ - sudo dpkg -i uboot.deb
+ - git clone https://github.com/aapav01/aarch64-linux-android-4.9-linaro /opt/toolchains/aarch64-linux-android-4.9-linaro
 before_script:
- - export ARCH=arm64
- - export PATH=$PATH:$PWD/aarch64-linux-android-4.9-linaro/bin/
- - aarch64-linux-android-gcc --version
+ - git clone https://github.com/AKuHAK/pxa-mkbootimg
+ - make -C pxa1xx8-mkbootimg/
+ - make -C pxa-mkbootimg/ #--silent
 script:
 # export your own config for example
- - export CROSS_COMPILE=$PWD/aarch64-linux-android-4.9-linaro/bin/aarch64-linux-android-
  - export DEFCONFIG=akuhak_pxa1908-xcover3ltexx_defconfig
- - make -j2 $DEFCONFIG
- - make -j2 --silent
+ - make $DEFCONFIG
+ - make -j5 --silent
  - mkimage -A arm64 -O linux -T kernel -C gzip -a 01000000 -e 01000000 -d arch/arm64/boot/Image.gz -n "pxa1928dkb linux" arch/arm64/boot/uImage
- - ls arch/arm64/boot/
- - tar -zcvf arch/arm64/boot/dts-dir.tar.gz arch/arm64/boot/dts/
+ - pxa-mkbootimg/pxa1908-dtbtool -o prebuilt/dtb.img -p scripts/dtc/ arch/arm64/boot/dts/
+ - pxa-mkbootimg/pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk prebuilt/ramdisk_gz --dt prebuilt/dtb.img --unknown 0x03000000 -o boot.img
+ - echo "SEANDROIDENFORCE" >> boot.img
+ - tar -H ustar -c boot.img
+ - md5sum -t boot.img.tar >> boot.img.tar
+ - mv boot.img.tar boot.tar.md5
 after_script:
- - curl --upload-file arch/arm64/boot/Image.gz https://transfer.sh/Image.gz | grep transfer
- - curl --upload-file arch/arm64/boot/uImage https://transfer.sh/uImage | grep transfer
- - curl --upload-file arch/arm64/boot/dts-dir.tar.gz https://transfer.sh/dts-dir.tar.gz | grep transfer
+ - curl --upload-file boot.tar.md5 https://transfer.sh/boot.tar.md5 | grep transfer
+ - curl --upload-file pxa-mkbootimg/pxa-mkbootimg https://transfer.sh/pxa-mkbootimg | grep transfer
+ - curl --upload-file pxa1908-dtbtool/pxa1908-dtbtool https://transfer.sh/pxa1908-dtbtool | grep transfer
+
