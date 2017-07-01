@@ -6,23 +6,21 @@ before_install:
  - sudo dpkg -i uboot.deb
  - git clone https://github.com/aapav01/aarch64-linux-android-4.9-linaro /opt/toolchains/aarch64-linux-android-4.9-linaro
 before_script:
- - git clone https://github.com/AKuHAK/pxa-mkbootimg
- - make -C pxa1xx8-mkbootimg/
- - make -C pxa-mkbootimg/ #--silent
+ - export DEFCONFIG=akuhak_pxa1908-xcover3ltexx_defconfig
 script:
 # export your own config for example
- - export DEFCONFIG=akuhak_pxa1908-xcover3ltexx_defconfig
  - make $DEFCONFIG
- - make -j5 --silent
+ - make -j2 --silent
  - mkimage -A arm64 -O linux -T kernel -C gzip -a 01000000 -e 01000000 -d arch/arm64/boot/Image.gz -n "pxa1928dkb linux" arch/arm64/boot/uImage
- - pxa-mkbootimg/pxa1908-dtbtool -o prebuilt/dtb.img -p scripts/dtc/ arch/arm64/boot/dts/
- - pxa-mkbootimg/pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk prebuilt/ramdisk_gz --dt prebuilt/dtb.img --unknown 0x03000000 -o boot.img
+ - cd ramdisk
+ - find . | cpio -o -H newc | gzip > ../ramdisk-out.cpio.gz
+ - cd ..
+ - ./pxa1908-dtbtool -o dtb.img -p scripts/dtc/ arch/arm64/boot/dts/ -v
+ - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
  - echo "SEANDROIDENFORCE" >> boot.img
  - tar -H ustar -c boot.img
  - md5sum -t boot.img.tar >> boot.img.tar
  - mv boot.img.tar boot.tar.md5
 after_script:
  - curl --upload-file boot.tar.md5 https://transfer.sh/boot.tar.md5 | grep transfer
- - curl --upload-file pxa-mkbootimg/pxa-mkbootimg https://transfer.sh/pxa-mkbootimg | grep transfer
- - curl --upload-file pxa1908-dtbtool/pxa1908-dtbtool https://transfer.sh/pxa1908-dtbtool | grep transfer
 
