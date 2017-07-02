@@ -877,12 +877,6 @@ service chargerboot /charger
 
 on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler cfq
-    start fstrim-service
-
-service fstrim-service ./init.fstrim.sh
-    disabled
-    user root
-    oneshot
 
 # CS_SERVICE
 service cs_service /system/bin/cs

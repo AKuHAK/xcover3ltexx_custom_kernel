@@ -287,6 +287,8 @@ on boot
 # SSWAP
     write /proc/sys/vm/swappiness 200
 
+	start fstrim-service
+
     setprop ro.media.gst.enabled 1
     setprop service.camera.af 1
 
@@ -520,6 +522,7 @@ service playlpm /system/bin/lpm
     critical
 
 on property:sys.boot_completed=1
+    exec - system system -- /system/bin/sync
     # 1. due to emmc calibration, kernel disable touch input by default.
     # enable it, when boot completed.
     # 2. enable ddr polling interval as 50, remove from phservice
@@ -564,6 +567,7 @@ on property:sys.boot_completed=1
     chmod 0664 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
 
     write /sys/block/mmcblk0/queue/scheduler cfq
+    start bootdone
 
 on property:persist.sys.debug.dump=low
    write /sys/power/panic CRASH_DISABLE
@@ -580,3 +584,14 @@ service swapon /sbin/sswap -s
     user root
     group root
     oneshot
+
+service bootdone /sbin/init.bootdone.sh
+    disabled
+    user root
+    oneshot
+	
+service fstrim-service /sbin/init.fstrim.sh
+    disabled
+    user root
+    oneshot
+

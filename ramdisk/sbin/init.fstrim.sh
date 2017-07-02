@@ -1,4 +1,4 @@
-#!/system/bin/sh
+#!/sbin/sh
 
 exec 2>&1 > /dev/kmsg
 
