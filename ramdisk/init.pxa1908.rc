@@ -285,7 +285,7 @@ on boot
     write /sys/block/mmcblk0/queue/scheduler noop
 	
 # SSWAP
-    write /proc/sys/vm/swappiness 130
+    write /proc/sys/vm/swappiness 200
 
     setprop ro.media.gst.enabled 1
     setprop service.camera.af 1
