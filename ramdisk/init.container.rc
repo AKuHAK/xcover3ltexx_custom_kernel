@@ -35,7 +35,7 @@ on post-fs-data
 
     export KNOX_STORAGE /data/knox/ext_sdcard
 
-    restorecon /data/knox
+#    restorecon /data/knox
 
 on boot
 
