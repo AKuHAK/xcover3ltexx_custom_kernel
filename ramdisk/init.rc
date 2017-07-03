@@ -587,8 +587,8 @@ service healthd /sbin/healthd
 
 #start SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID
 # Reload SE Android Policy for MDM
-on property:persist.security.mdm.policy=1
-    setprop selinux.reload_policy 1
+#on property:persist.security.mdm.policy=1
+#    setprop selinux.reload_policy 1
 #end SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID
 
 service console /system/bin/sh
@@ -629,6 +629,7 @@ on property:ro.debuggable=1
 
 # SEC_SELINUX
 on property:init.svc.bootanim=stopped
+    write /proc/sys/vm/compact_memory 1
 #    start auditd
 
 # adbd is controlled via property triggers in init.<platform>.usb.rc
@@ -901,3 +902,11 @@ on property:sys.boot_completed=1
 on property:sys.sysctl.compact_memory=1
     write /proc/sys/vm/compact_memory 1
     setprop sys.sysctl.compact_memory=0
+
+# init.d support enabler
+service sysinit /sbin/busybox run-parts /system/etc/init.d 
+    class late_start
+    user root
+    group shell
+    oneshot
+
