@@ -389,7 +389,7 @@
 /system/bin/netmgrd                             u:object_r:netmgrd_exec:s0
 /system/bin/qmuxd                               u:object_r:qmuxd_exec:s0
 /system/bin/port-bridge                         u:object_r:port-bridge_exec:s0
-/system/bin/sensors\.qcom                        u:object_r:sensors_exec:s0
+/system/bin/sensors.qcom                        u:object_r:sensors_exec:s0
 # SEC removed : /system/bin/sns.*                               u:object_r:sensors_test_exec:s0
 /system/bin/test_diag                           u:object_r:diag_exec:s0
 /system/bin/thermal-engine                      u:object_r:thermal-engine_exec:s0
@@ -401,7 +401,6 @@
 /system/bin/rfs_access                          u:object_r:rfs_access_exec:s0
 /system/bin/tftp_server                         u:object_r:rfs_access_exec:s0
 /system/bin/hvdcp                               u:object_r:hvdcp_exec:s0
-/system/bin/hvdcp_opti                               u:object_r:hvdcp_exec:s0
 /system/bin/qseecomd                            u:object_r:tee_exec:s0
 /system/bin/hostapd_cli                         u:object_r:hostapd_exec:s0
 /system/bin/adsprpcd                            u:object_r:adsprpcd_exec:s0
@@ -467,7 +466,7 @@
 #
 # SEC Remove dup contexts, /sys/class/graphics/fb0/mdp/caps                                    u:object_r:sysfs_graphics:s0
 /sys/class/thermal(/.*)?                                            u:object_r:sysfs_thermal:s0
-/sys/devices/soc\.0/qcom,bcl.*(/.*)?                                 u:object_r:sysfs_thermal:s0
+/sys/devices/soc.0/qcom,bcl.*(/.*)?                                 u:object_r:sysfs_thermal:s0
 /sys/devices/qcom,bcl.*(/.*)?                                       u:object_r:sysfs_thermal:s0
 /sys/devices/f9200000.*/power_supply/usb(/.*)?                      u:object_r:sysfs_usb_supply:s0
 /sys/devices/msm_dwc3/power_supply/usb(/.*)?                        u:object_r:sysfs_usb_supply:s0
@@ -534,8 +533,6 @@
 /data/misc/qlogd(/.*)?                                              u:object_r:qlogd_data_file:s0
 /data/usf(/.*)?                                                     u:object_r:usf_data_file:s0
 /data/misc/dts(/.*)?                                                u:object_r:dts_data_file:s0
-/data/misc/SelfHost(/.*)?                                           u:object_r:RIDL_data_file:s0
-/data/misc/SelfHost/socket(/.*)?                                    u:object_r:RIDL_socket:s0
 /data/misc/seemp(/.*)?                                              u:object_r:seemp_file:s0
 /data/SelfHost(/.*)?                                                u:object_r:RIDL_data_file:s0
 /data/misc/tloc(/.*)?                                               u:object_r:tlocd_data_file:s0
@@ -572,8 +569,8 @@
 #
 /system/bin/cnss_diag          u:object_r:wcnss_service_exec:s0
 
-/dev/block/platform/msm_sdcc\.1/by-name/modemst[1-2]*	u:object_r:modemstblk_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/ssd	u:object_r:ssdblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/modemst[1-2]*	u:object_r:modemstblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/ssd	u:object_r:ssdblk_device:s0
 
 /dev/efs_bridge	u:object_r:efsbridgehsic_device:s0
 /dev/ks_bridge	u:object_r:ksbridgehsic_device:s0
@@ -588,23 +585,23 @@
 ############################# 
 # DATA file
 #
-/data/data/\.drm(/.*)?	u:object_r:drm_playready_file:s0
-#/data/data/\.drm/\.playready(/.*)?	u:object_r:drm_playready_file:s0
-#/data/data/\.drm/\.playready/aeskey\.dat	u:object_r:drm_data_file:s0
+/data/data/.drm(/.*)?	u:object_r:drm_playready_file:s0
+#/data/data/.drm/.playready(/.*)?	u:object_r:drm_playready_file:s0
+#/data/data/.drm/.playready/aeskey.dat	u:object_r:drm_data_file:s0
 /data/nfc/(/.*)?		u:object_r:nfc_data_file:s0
 ############################# 
 # efs file
 #
 # com.sec.android.preloadinstaller write currentlyFactoryReset
 # path was changed /efs/recovery/currentlyFactoryReset" by recovery team.
-#/efs/\.currentlyFactoryReset            u:object_r:app_efs_file:s0
+#/efs/.currentlyFactoryReset            u:object_r:app_efs_file:s0
 /efs/Battery/fg_full_voltage		 u:object_r:app_efs_file:s0
 # com.sec.imsservice write silent_redial
 /efs/silent_redial                     u:object_r:app_efs_file:s0
 # HDCP and Widevine key. support r/w for radio and system app
-/efs/h2k\.dat                           u:object_r:cpk_efs_file:s0
-/efs/redata\.bin                        u:object_r:cpk_efs_file:s0
-/efs/wv\.keys                           u:object_r:cpk_efs_file:s0
+/efs/h2k.dat                           u:object_r:cpk_efs_file:s0
+/efs/redata.bin                        u:object_r:cpk_efs_file:s0
+/efs/wv.keys                           u:object_r:cpk_efs_file:s0
 /efs/total_call_time                   u:object_r:app_efs_file:s0
 
 
@@ -770,40 +767,40 @@
 # Attention: these cases have different name between
 # exec file name and process name. the name is from
 # init.pxa1xxx.tel.rc, init.pxa1xxx.rc, init_bsp.pxa1xxx.tel.rc
-/system/bin/tel_launch\.sh	u:object_r:marvelltel_exec:s0
-/system/bin/tel_launch_no_gui\.sh	u:object_r:marvelltel_exec:s0
+/system/bin/tel_launch.sh	u:object_r:marvelltel_exec:s0
+/system/bin/tel_launch_no_gui.sh	u:object_r:marvelltel_exec:s0
 /system/bin/FMRadioServer	u:object_r:FMRadiod_exec:s0
 /system/bin/MarvellWirelessDaemon	u:object_r:mwirelessd_exec:s0
 /system/bin/IMLLog	u:object_r:iml_exec:s0
-/system/bin/log_on_boot\.sh	u:object_r:log_on_boot_exec:s0
+/system/bin/log_on_boot.sh	u:object_r:log_on_boot_exec:s0
 #SEC removed : conflict /system/bin/imsd	u:object_r:imsc_exec:s0
 /system/bin/MarvellNfcExtensionsDaemon	u:object_r:mned_exec:s0
-/system/bin/update_touch_fw\.sh	u:object_r:touch_updater_exec:s0
+/system/bin/update_touch_fw.sh	u:object_r:touch_updater_exec:s0
 /system/bin/phservice	u:object_r:phservice_exec:s0
-/system/bin/kmsg\.sh	u:object_r:kmsg_exec:s0
+/system/bin/kmsg.sh	u:object_r:kmsg_exec:s0
 /system/bin/root_detect u:object_r:root_detect_exec:s0
-/system/bin/load_calibration_data\.sh 	u:object_r:load_g_cali_data_exec:s0
+/system/bin/load_calibration_data.sh 	u:object_r:load_g_cali_data_exec:s0
 /system/bin/memsicd	u:object_r:memsicd_exec:s0
 /system/bin/memsicp	u:object_r:memsicp_exec:s0
 /system/bin/codecIPC_server	u:object_r:codecIPC_server_exec:s0
 /system/bin/mrvl_gpsd	u:object_r:mrvl_gpsd_exec:s0
 /system/bin/core-compressor u:object_r:core_compressor_exec:s0
 /system/bin/at_router   u:object_r:at_router_exec:s0
-/system/bin/env\.sh   u:object_r:env_exec:s0
+/system/bin/env.sh   u:object_r:env_exec:s0
 
 
 # nfc data
 #SEC removed: conflict, /data/nfc(/.*)?		u:object_r:nfc_data_file:s0
 /data/misc/wireless(/.*)?	u:object_r:wireless_data_file:s0
 #SEC removed: conflict, /data/log(/.*)?		u:object_r:dump_log_data_file:s0
-/data/mrvl_tel_diag\.cfg	u:object_r:tel_data_file:s0
-/data/mrvl_tel_iml\.cfg	u:object_r:tel_data_file:s0
+/data/mrvl_tel_diag.cfg	u:object_r:tel_data_file:s0
+/data/mrvl_tel_iml.cfg	u:object_r:tel_data_file:s0
 
 # for tz
 /system/bin/teec_sstd_ca	u:object_r:teecsstdca_exec:s0
 
 # for hawk
-/system/bin/run_hawk_on_boot\.sh	u:object_r:run_hawk_on_boot_exec:s0
+/system/bin/run_hawk_on_boot.sh	u:object_r:run_hawk_on_boot_exec:s0
 /system/bin/hawk		u:object_r:hawk_exec:s0
 #line 1 "vendor/samsung/common/sepolicy/BSP/bsp_sprd/file_contexts"
 #############################
@@ -864,14 +861,9 @@
 /dev/sprd_bm             u:object_r:bm_device:s0
 
 /dev/slog_w              u:object_r:slog_device:s0
-/dev/iq_mem             u:object_r:slog_device:s0
-/dev/sdiag_w             u:object_r:slog_device:s0
 /dev/slog_wcn 		     u:object_r:slog_device:s0
 
 /dev/download        u:object_r:wcn_device:s0
-/dev/gnss_download        u:object_r:wcn_device:s0
-/dev/gnss_dbg        u:object_r:wcn_device:s0
-/dev/slog_gnss           u:object_r:slog_device:s0
 
 #SEC remove: /dev/block/mmcblk0p[3-6] u:object_r:nv_mmcblk_device:s0
 /dev/spipe_w[0-9]        u:object_r:spipe_device:s0
@@ -893,13 +885,10 @@
 /system/bin/rild_sp u:object_r:rild_exec:s0
 /system/bin/cp_diskserver u:object_r:cp_diskserver_exec:s0
 
-/system/bin/phasecheckserver u:object_r:phasecheckserver_exec:s0
-
 /dev/block/zram0 u:object_r:zram_block_device:s0
 
 /system/bin/nvitemd u:object_r:nvitemd_exec:s0
 /system/bin/wcnd     	u:object_r:wcnd_exec:s0
-/system/bin/gnss_download    u:object_r:gnss_download_exec:s0
 /system/bin/slogmodem	u:object_r:slogmodem_exec:s0
 
 ############################
@@ -940,7 +929,6 @@
 /system/bin/batterysrv                 u:object_r:batterysrv_exec:s0
 /system/bin/download                   u:object_r:download_exec:s0
 /system/bin/collect_apr                u:object_r:collect_apr_exec:s0
-/system/bin/ext_data\.sh		u:object_r:data_on_off_exec:s0
 /system/bin/ext_symlink\.sh		u:object_r:smd_symlink_exec:s0
 /system/bin/slog	u:object_r:slog_exec:s0
 /system/bin/sprd_res_monitor	u:object_r:sprd_res_monitor_exec:s0
@@ -967,7 +955,7 @@
 ############################# 
 # Device node of sec_common
 #
-/dev/\.secure_storage(/.*)?		u:object_r:secure_storage_device:s0
+/dev/.secure_storage(/.*)?		u:object_r:secure_storage_device:s0
 /dev/__kmsg	u:object_r:klog_device:s0
 /dev/alps_io	u:object_r:input_device:s0
 /dev/android_ssusbcon(/.*)?		u:object_r:usb_device:s0
@@ -978,7 +966,7 @@
 /dev/block/mmcblk1p.*   u:object_r:emmcblk_device:s0
 /dev/block/mmcblk1p1    u:object_r:emmcblk_device:s0
 # remove this label because of selabel_lookup_best_match /dev/block/platform/dw_mmc.*    u:object_r:dw_mmc_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/param		u:object_r:emmcblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/param		u:object_r:emmcblk_device:s0
 /dev/block/sd[a-z][0-9]*    u:object_r:emmcblk_device:s0
 /dev/block/vnswap0		u:object_r:swap_device:s0
 /dev/bus/usb(/.*)?      u:object_r:usb_bus_device:s0
@@ -1067,11 +1055,11 @@
 /dev/android_rndis_qc	u:object_r:radio_device:s0
 /dev/audience_a2220	u:object_r:audio_device:s0
 # conflict with Qcom BSP, /dev/block/mmcblk0rpmb	u:object_r:mmcblk0rpmb_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/fsg	u:object_r:fsg_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/m9kefs[0-3]*	u:object_r:emmcblk_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/modem	u:object_r:modem_device:s0
-# conflict with Qcom BSP, /dev/block/platform/msm_sdcc\.1/by-name/modemst[1-2]*	u:object_r:emmcblk_device:s0
-# conflict with Qcom BSP, /dev/block/platform/msm_sdcc\.1/by-name/ssd	u:object_r:emmcblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/fsg	u:object_r:fsg_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/m9kefs[0-3]*	u:object_r:emmcblk_device:s0
+/dev/block/platform/msm_sdcc.1/by-name/modem	u:object_r:modem_device:s0
+# conflict with Qcom BSP, /dev/block/platform/msm_sdcc.1/by-name/modemst[1-2]*	u:object_r:emmcblk_device:s0
+# conflict with Qcom BSP, /dev/block/platform/msm_sdcc.1/by-name/ssd	u:object_r:emmcblk_device:s0
 /dev/btlock	u:object_r:hci_attach_dev:s0
 #####/dev/btlock			u:object_r:bluetooth_device:s0 
 #ciq_bridge PLM
@@ -1144,7 +1132,7 @@
 # Device node of slsi_common
 #
 /dev/akm8963		u:object_r:akm8963_device:s0
-/dev/b\.L_.*			u:object_r:ap_device:s0
+/dev/b.L.*			u:object_r:ap_device:s0
 /dev/bbd_control	u:object_r:bbd_device:s0
 /dev/bbd_packet		u:object_r:bbd_device:s0
 /dev/bbd_patch		u:object_r:bbd_device:s0
@@ -1215,12 +1203,11 @@
 /sys/class/android_usb/android0(/.*)?          --     u:object_r:sysfs_ss_writable:s0
 /sys/class/backlight(/.*)?                     --     u:object_r:sysfs_ss_writable:s0 
 /sys/class/dsm/maxdsm_cal(/.*)?                --     u:object_r:sysfs_ss_writable:s0
-/sys/class/earsmart/control/always_stream_fs_on       u:object_r:sysfs_ss_writable:s0
 /sys/class/host_notify(/.*)?                   --     u:object_r:sysfs_ss_writable:s0   
 /sys/class/timed_output/vibrator/enable               u:object_r:sysfs_ss_writable:s0   
 /sys/class/ultrasonic/ultrasonic/data                 u:object_r:sysfs_ss_writable:s0 
 /sys/class/usb/otg/test                               u:object_r:sysfs_ss_writable:s0
-/sys/devices/14ac0000\.mali/power_policy               u:object_r:sysfs_ss_writable:s0
+/sys/devices/14ac0000.mali/power_policy               u:object_r:sysfs_ss_writable:s0
 /sys/devices/platform/omapdss/display1/sec_timing     u:object_r:sysfs_ss_writable:s0
 /sys/devices/virtual/misc/umts_dm0/dm_state             u:object_r:sysfs_ss_writable:s0 
 /sys/devices/virtual/sec_param/sec_param/power_onoff    u:object_r:sysfs_ss_writable:s0 
@@ -1242,7 +1229,6 @@
 /sys/power/ftm_sleep                                                    u:object_r:sysfs_ss_writable:s0
 ### end : supporting Factory app.
 
-/sys/class/input/input[0-9]+/secure_touch_enable					u:object_r:sysfs_sec:s0
 
 ############################# 
 # System files of sec_common
@@ -1260,7 +1246,7 @@
 /system/bin/cellgeofenced	u:object_r:cellgeofenced_exec:s0
 /system/bin/charon	u:object_r:charon_exec:s0
 /system/bin/connfwexe	u:object_r:connfwexe_exec:s0
-/system/bin/corehelper\.sh	u:object_r:corehelper_sh_file:s0
+/system/bin/corehelper.sh	u:object_r:corehelper_sh_file:s0
 /system/bin/createsystemfile	u:object_r:createsystemfile_exec:s0
 /system/bin/cs				u:object_r:cs_exec:s0
 /system/bin/ddexe	u:object_r:ddexe_exec:s0
@@ -1272,7 +1258,6 @@
 /system/bin/icd	u:object_r:icd_exec:s0
 /system/bin/immvibed	u:object_r:immvibed_exec:s0
 /system/bin/insthk	u:object_r:insthk_exec:s0
-/system/bin/imsd	u:object_r:imsd_exec:s0
 /system/bin/ipruleset	u:object_r:ipruleset_exec:s0
 /system/bin/IPSecService	u:object_r:IPSecService_exec:s0
 /system/bin/jackservice		u:object_r:jackservice_exec:s0
@@ -1287,8 +1272,8 @@
 /system/bin/olsrd	u:object_r:olsrd_exec:s0
 /system/bin/p2p_supplicant	u:object_r:p2p_supplicant_exec:s0
 /system/bin/pppoewrapper        u:object_r:pppoewrapper_exec:s0
-/system/bin/prepare_param\.sh	u:object_r:prepare_param_sh_file:s0
-/system/bin/rtc_log\.sh          u:object_r:rtc_log_sh_file:s0
+/system/bin/prepare_param.sh	u:object_r:prepare_param_sh_file:s0
+/system/bin/rtc_log.sh          u:object_r:rtc_log_sh_file:s0
 /system/bin/samsungpowersoundplay	u:object_r:samsungpowersoundplay_exec:s0
 /system/bin/scs			u:object_r:scs_exec:s0
 /system/bin/sdp_cryptod			u:object_r:sdp_cryptod_exec:s0
@@ -1296,7 +1281,7 @@
 /system/bin/secure_storage_daemon	u:object_r:secure_storage_exec:s0
 /system/bin/sem_daemon	u:object_r:sem_exec:s0
 /system/bin/sensorhubservice	u:object_r:sensorhubservice_exec:s0
-/system/bin/selinux-network\.sh	u:object_r:selinux_net_exec:s0
+/system/bin/selinux-network.sh	u:object_r:selinux_net_exec:s0
 /system/bin/ss_conn_daemon	u:object_r:ss_conn_daemon_exec:s0
 /system/bin/ss_kbservice_daemon	u:object_r:ss_kbservice_daemon_exec:s0
 /system/bin/smdexe	u:object_r:smdexe_exec:s0
@@ -1311,7 +1296,6 @@
 /system/bin/vcsFPService	u:object_r:vcsFPService_exec:s0
 /system/bin/vfmService		u:object_r:vcsFPService_exec:s0
 /system/bin/vpnclientd          u:object_r:vpnclientd_exec:s0
-/system/bin/StartLogging           u:object_r:StartLogging_exec:s0
 # conflict with Qcom BSP, /system/bin/wcnss_service	u:object_r:wcnss_service_exec:s0
 /system/bin/wpa_supplicant_real u:object_r:wpa_exec:s0
 # to run resopt on system_server
@@ -1329,7 +1313,7 @@
 
 /system/etc/event-log-tags	u:object_r:event_log_tags_file:s0
 /system/etc/dhcpcd(/.*)? u:object_r:dhcp_system_file:s0
-/system/etc/install-recovery\.sh	u:object_r:flash_recovery_sh_file:s0
+/system/etc/install-recovery.sh	u:object_r:flash_recovery_sh_file:s0
 /system/etc/ppp(/.*)?	u:object_r:ppp_system_file:s0
 
 /system/lib(/.*)?	u:object_r:system_library_file:s0
@@ -1401,7 +1385,7 @@
 /system/bin/mld         u:object_r:debug_interface_proxy_exec:s0
 /system/bin/mlexe    u:object_r:mlexe_exec:s0 
 /system/bin/mmd         u:object_r:debug_interface_proxy_exec:s0
-/system/etc/security/\.drm	u:object_r:drm_security_system_file:s0
+/system/etc/security/.drm	u:object_r:drm_security_system_file:s0
 /system/etc/ymc/setup	u:object_r:setup_ymc_etc_system_file:s0
 /system/lib/drm			u:object_r:drm_lib_system_file:s0
 
@@ -1413,17 +1397,17 @@
 /data/app-lib(/.*)? 	u:object_r:app_library_file:s0
 /data/bcmnfc(/.*)?	u:object_r:nfc_data_file:s0
 /data/data/.*		u:object_r:app_data_file:s0
-#/data/data/\.drm(/.*)?	u:object_r:drm_data_file:s0
-#/data/data/com\.android\.providers\.downloads/cache u:object_r:download_file:s0
-/data/data/com\.android\.settings/files/wallpaper	u:object_r:wallpaper_file:s0
-/data/data/com\.android\.shell(/.*)?		u:object_r:shell_data_file:s0
+#/data/data/.drm(/.*)?	u:object_r:drm_data_file:s0
+#/data/data/com.android.providers.downloads/cache u:object_r:download_file:s0
+/data/data/com.android.settings/files/wallpaper	u:object_r:wallpaper_file:s0
+/data/data/com.android.shell(/.*)?		u:object_r:shell_data_file:s0
 /data/data/imsqmisocket	u:object_r:system_data_file:s0
 /data/data/lptcpSocket u:object_r:lptcp_data_file:s0
 /data/DownFilters/Lib(/.*)?		u:object_r:downfilters_lib_file:s0
 /data/DownFilters/Lib64(/.*)?		u:object_r:downfilters_lib_file:s0
 /data/KEqvTaYEYkuJr1Mn+t-SwFvbgYo_(/.*)?  u:object_r:tima_keystore_file:s0
 /data/log(/.*)?	u:object_r:dumplog_data_file:s0
-/data/media\.tmp(/.*)?	u:object_r:media_rw_data_file:s0
+/data/media.tmp(/.*)?	u:object_r:media_rw_data_file:s0
 /data/media/obb(/.*)?	u:object_r:obb_apk_file:s0
 #from nsa
 /data/misc/audit(/.*)?		u:object_r:audit_log:s0
@@ -1446,27 +1430,19 @@
 /data/system/users(/.*)/wallpaper	u:object_r:wallpaper_file:s0
 /data/system/users(/.*)/wallpaper2	u:object_r:wallpaper_file:s0
 /data/tee(/.*)?	                        u:object_r:tee_data_file:s0
-/data/\.wifiver\.info                                 u:object_r:wifiver_data_file:s0
 
 ############################# 
 # DATA file of knox_common
 #
-/data/\.container_[1-9](/.*)?	u:object_r:container_app_data_backend:s0
+/data/.container_[1-9](/.*)?	u:object_r:container_app_data_backend:s0
 /data/clipboard/knox(/.*)?  u:object_r:knox_clipboard_file:s0
 /data/clipboard1[0-9][0-9](/.*)?  u:object_r:knox_clipboard_file:s0
 /data/container(/.*)?	u:object_r:container_app_data_backend:s0
 /data/knox(/.*)?	u:object_r:container_app_data_backend:s0
 /mnt/shell/emulated/([1-9])?[0-9](/.*)?  u:object_r:media_rw_data_file:s0
-/mnt/shell/enc_emulated/([1-9])?[0-9](/.*)?  u:object_r:media_rw_data_file:s0
-/mnt/shell/enc_media/([1-9])?[0-9](/.*)?  u:object_r:media_rw_data_file:s0
-/mnt/shell/emulated/1[0-8][0-9](/.*)?           u:object_r:container_app_data_backend:s0
-/mnt/shell/emulated/19[0-4](/.*)?               u:object_r:container_app_data_backend:s0
-/mnt/shell/emulated/1[0-9][0-9]/\.irm(/.*)?     u:object_r:irm_media_data_file:s0
 /mnt/shell/knox-emulated/1[0-8][0-9](/.*)?  u:object_r:container_app_data_backend:s0
 /mnt/shell/knox-emulated/19[0-4](/.*)?  u:object_r:container_app_data_backend:s0
 /data/knox/data/19[5-9](/.*)?	        u:object_r:bbccontainer_app_data_backend:s0
-/data/knox/secure_fs/enc_media(/.*)?	        u:object_r:media_rw_data_file:s0
-/data/knox/secure_fs/enc_user(/.*)?	        u:object_r:media_rw_data_file:s0
 /data/knox/sdcard/19[5-9](/.*)?	        u:object_r:bbccontainer_app_data_backend:s0
 /mnt/shell/knox-emulated/19[5-9](/.*)?  u:object_r:bbccontainer_app_data_backend:s0
 /data/security/aasa(/.*)?               u:object_r:security_spota_file:s0
@@ -1495,10 +1471,8 @@
 /efs/logguard(/.*)?	                         u:object_r:iss_efs_file:s0
 /efs/maxim(/.*)?	                         u:object_r:sec_efs_file:s0
 /efs/mc(/.*)?	                                 u:object_r:prov_efs_file:s0
-/efs/\.nv_core\.bak(.*)                            u:object_r:nv_core_efs_file:s0
 /efs/otadm(/.*)?	                         u:object_r:otadm_efs_file:s0
 /efs/otadm_sw_version                            u:object_r:otadm_efs_file:s0
-/efs/pfw_data(/.*)?	                         u:object_r:pfw_efs_file:s0
 /efs/prov(/.*)?	                                 u:object_r:prov_efs_file:s0
 /efs/prov_data(/.*)?	                         u:object_r:prov_efs_file:s0
 /efs/recovery(/.*)?	                         u:object_r:sec_efs_file:s0
@@ -1524,12 +1498,12 @@
 # EFS file of qcom_common
 #
 /efs/drm(/.*)?	u:object_r:drm_efs_file:s0
-/efs/\.drm(/.*)?         u:object_r:drm_efs_file:s0
+/efs/.drm(/.*)?         u:object_r:drm_efs_file:s0
 
 ############################# 
 # EFS file of slsi_common
 #
-/efs/nv_data\.bin(.*)	u:object_r:bin_nv_data_efs_file:s0
+/efs/nv_data.bin(.*)	u:object_r:bin_nv_data_efs_file:s0
 
 ############################# 
 # MISC partition file of sec_common
@@ -1580,9 +1554,11 @@
 /carrier/itson(/.*)?  u:object_r:sprintitson_file:s0
 /dev/socket/itson(/.*)?                    u:object_r:itson_socket:s0
 /data/itson(/.*)?     u:object_r:sprintitson_file:s0
-/system/vendor/itson/itson-bootstrapper\.sh	u:object_r:itsonbs_exec:s0
+/system/vendor/itson/itson-bootstrapper.sh	u:object_r:itsonbs_exec:s0
 
 #line 1 "vendor/samsung/common/sepolicy/carrier/carrier_tfntmo/file_contexts"
 
 /system/bin/tsdaemon            u:object_r:tsdaemon_exec:s0
 
+# SuperSU
+/su(/.*)? u:object_r:system_file:s0

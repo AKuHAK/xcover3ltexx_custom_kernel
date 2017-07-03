@@ -158,8 +158,6 @@ sprdsimphonebook                          u:object_r:radio_service:s0
 sprd_phone                                u:object_r:radio_service:s0
 security                                  u:object_r:system_server_service:s0
 board_score                               u:object_r:system_server_service:s0
-media.VideoCallEngineService              u:object_r:mediaserver_service:s0
-phasechecknative                          u:object_r:system_server_service:s0
 #line 1 "vendor/samsung/common/sepolicy/service_contexts"
 ############ aosp and sec_common #############
 com.samsung.android.jam.IAPAClient          u:object_r:apaservice_service:s0
@@ -205,7 +203,6 @@ emergency_service                           u:object_r:system_app_service:s0
 fingerprint_service                         u:object_r:system_app_service:s0
 ImsBase                                     u:object_r:system_app_service:s0
 ImsCapability                               u:object_r:system_app_service:s0
-imsopenapi                                  u:object_r:system_app_service:s0
 ImsPersonalProfile                          u:object_r:system_app_service:s0
 ImsPresence                                 u:object_r:system_app_service:s0
 ImsSms                                      u:object_r:system_app_service:s0
@@ -213,10 +210,7 @@ ImsSSConfig                                 u:object_r:system_app_service:s0
 ImsTapi                                     u:object_r:system_app_service:s0
 ImsVolte                                    u:object_r:system_app_service:s0
 ImsVsh                                      u:object_r:system_app_service:s0
-ims6                                        u:object_r:system_app_service:s0
-secims                                      u:object_r:system_app_service:s0
 SveService                                  u:object_r:system_app_service:s0
-volte                                       u:object_r:system_app_service:s0
 application_policy                          u:object_r:system_server_service:s0
 ABTPersistenceService                       u:object_r:system_server_service:s0
 barbeam                                     u:object_r:system_server_service:s0
@@ -236,7 +230,6 @@ device_info                                 u:object_r:system_server_service:s0
 DigitalPen                                  u:object_r:system_server_service:s0
 DirEncryptService                           u:object_r:system_server_service:s0
 download                                    u:object_r:system_server_service:s0
-DPU                                         u:object_r:system_server_service:s0
 dualscreen                                  u:object_r:system_server_service:s0
 edge                                        u:object_r:system_server_service:s0
 emailksproxy                                u:object_r:system_server_service:s0
@@ -258,7 +251,6 @@ lpnet                                       u:object_r:system_server_service:s0
 LSManager                                   u:object_r:system_server_service:s0
 magazinecardservice                         u:object_r:system_server_service:s0
 mDNIe                                       u:object_r:system_server_service:s0
-MSCS                                        u:object_r:system_server_service:s0
 mini_mode_app_manager                       u:object_r:system_server_service:s0
 motion_recognition                          u:object_r:system_server_service:s0
 msapwifi                                    u:object_r:system_server_service:s0
@@ -377,7 +369,6 @@ phone_restriction_policy                    u:object_r:system_server_service:s0
 rcp                                         u:object_r:system_server_service:s0
 restriction_policy                          u:object_r:system_server_service:s0
 roaming_policy                              u:object_r:system_server_service:s0
-sam_service                                 u:object_r:system_server_service:s0
 sdp                                         u:object_r:system_server_service:s0
 seandroid_policy                            u:object_r:system_server_service:s0
 sedenial                                    u:object_r:system_server_service:s0
