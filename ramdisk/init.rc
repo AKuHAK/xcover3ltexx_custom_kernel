@@ -11,6 +11,7 @@ import /init.${ro.zygote}.rc
 import /init.trace.rc
 import /init.rilcommon.rc
 #import /init.container.rc
+import init.supersu.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -251,7 +252,6 @@ on post-fs-data
     mkdir /efs/SMS 0775 radio system
 
     # Reload SE Android Policy
-    setprop selinux.reload_policy 1
 
     # SEC_SELINUX sec_efs_file
     mkdir /efs/sec_efs 0775 radio system
@@ -392,7 +392,6 @@ on post-fs-data
     mkdir /data/security 0711 system system
 
     # Reload policy from /data/security if present.
- #SEC_SELINUX  remove: setprop selinux.reload_policy 1
 
     # Set SELinux security contexts on upgrade or policy update.
 #SEC_SELINUX#    restorecon_recursive /data
@@ -588,7 +587,6 @@ service healthd /sbin/healthd
 #start SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID
 # Reload SE Android Policy for MDM
 #on property:persist.security.mdm.policy=1
-#    setprop selinux.reload_policy 1
 #end SEC_PRODUCT_FEATURE_COMMON_SUPPORT_SE_FOR_ANDROID
 
 service console /system/bin/sh
@@ -910,3 +908,5 @@ service sysinit /sbin/busybox run-parts /system/etc/init.d
     group shell
     oneshot
 
+# SuperSU:PATCH:282
+# SuperSU:STOCK:0620834e5ca3c5abaa01190060eb7716d71f7208
