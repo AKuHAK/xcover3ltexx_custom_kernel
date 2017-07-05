@@ -4,7 +4,7 @@ on fs
     mkdir /teesst 0700 root root
     mount ext4 /dev/block/platform/soc.2/by-name/SSTD /teesst
     chmod 0700 /teesst
-    restorecon -R /teesst
+#    restorecon -R /teesst
 
 on post-fs
     # tz trial
