@@ -1,26 +1,32 @@
 sudo: required
+dist: trusty
 before_install:
  - sudo apt-get update -qyy
  - sudo apt-get install -qyy curl bc make git build-essential #u-boot-tools
  - wget http://security.ubuntu.com/ubuntu/pool/main/u/u-boot/u-boot-tools_2016.01+dfsg1-2ubuntu3_amd64.deb -O uboot.deb
  - sudo dpkg -i uboot.deb
- - git clone https://github.com/aapav01/aarch64-linux-android-4.9-linaro /opt/toolchains/aarch64-linux-android-4.9-linaro
+# - wget http://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/aarch64-linux-gnu/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz
+# - mkdir -p /opt/toolchains/aarch64-linux-android-4.9.4-linaro
+# - tar -xf gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu.tar.xz -C /opt/toolchains/
+ - git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.8 /opt/toolchains/aarch64-linux-android-4.8
 before_script:
  - export DEFCONFIG=akuhak_pxa1908-xcover3ltexx_defconfig
+# - export PATH=$PATH:/opt/toolchains/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/
+# - export CROSS_COMPILE=/opt/toolchains/gcc-linaro-4.9.4-2017.01-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+ - export PATH=$PATH:/opt/toolchains/aarch64-linux-android-4.8/bin/
+ - export CROSS_COMPILE=/opt/toolchains/aarch64-linux-android-4.8/bin/aarch64-linux-android-
 script:
 # export your own config for example
  - make $DEFCONFIG
  - make -j2 --silent
  - mkimage -A arm64 -O linux -T kernel -C gzip -a 01000000 -e 01000000 -d arch/arm64/boot/Image.gz -n "pxa1928dkb linux" arch/arm64/boot/uImage
- - cd ramdisk
- - find . | cpio -o -H newc | gzip > ../ramdisk-out.cpio.gz
- - cd ..
+ - ./mkbootfs ramdisk | gzip  > ramdisk-out.cpio.gz
  - ./pxa1908-dtbtool -o dtb.img -p scripts/dtc/ arch/arm64/boot/dts/ -v
  - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
  - echo "SEANDROIDENFORCE" >> boot.img
- - tar -H ustar -c boot.img
- - md5sum -t boot.img.tar >> boot.img.tar
- - mv boot.img.tar boot.tar.md5
+ - tar -H ustar -c boot.img > boot.tar
+ - md5sum -t boot.tar >> boot.tar
+ - mv boot.tar boot.tar.md5
 after_script:
  - curl --upload-file boot.tar.md5 https://transfer.sh/boot.tar.md5 | grep transfer
 
