@@ -27,7 +27,9 @@ MODULE_LICENSE("GPL");
  * Parameters which can be set at load time.
  */
 
-#ifdef TEE_RES_CFG_16M
+#ifdef TEE_RES_CFG_8M
+#define TZDD_VERSION    "TEEC Drvier Version 1.1.4 8MB, kernel_3_10/3_14"
+#elif defined (TEE_RES_CFG_16M)
 #define TZDD_VERSION    "TEEC Drvier Version 1.1.4 16MB, kernel_3_10/3_14"
 #elif defined(TEE_RES_CFG_24M)
 #define TZDD_VERSION    "TEEC Drvier Version 1.1.4 24MB, kernel_3_10/3_14"

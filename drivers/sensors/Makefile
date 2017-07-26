@@ -11,3 +11,4 @@ obj-$(CONFIG_SENSORS_GP2A002)		+= gp2a002.o
 obj-$(CONFIG_SENSORS_K2HH)		+= k2hh.o
 obj-$(CONFIG_SENSORS_YAMAHA)		+= yas_mag_kernel.o
 obj-$(CONFIG_SENSORS_YAS537)		+= yas_mag_drv-yas537.o
+obj-$(CONFIG_SENSORS_AK09911C)		+= ak09911c.o

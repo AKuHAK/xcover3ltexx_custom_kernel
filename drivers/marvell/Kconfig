@@ -143,6 +143,12 @@ config MRVL_RSV_PAGE
 	With the help of bootloader, Driver or module can use
 	the data before eMMC is ready. It is something like DTB.
 
+config TEE_RES_CFG_8M
+	bool "Marvell TrustZone/TEE Resource Configuration (8M)"
+	default n
+	help
+		Marvell TrustZone/TEE Resource Configuration (8M)
+		
 config TEE_RES_CFG_16M
 	bool "Marvell TrustZone/TEE Resource Configuration (16M)"
 	default n

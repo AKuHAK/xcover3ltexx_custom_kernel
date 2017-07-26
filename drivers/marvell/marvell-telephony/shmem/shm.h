@@ -126,6 +126,10 @@ struct shm_rbctl {
 	 * lock for virtual address mapping
 	 */
 	struct mutex	va_lock;
+#ifdef CONFIG_SSIPC_SUPPORT
+	unsigned int uuid_high;
+	unsigned int uuid_low;
+#endif	
 };
 
 struct shm_callback {

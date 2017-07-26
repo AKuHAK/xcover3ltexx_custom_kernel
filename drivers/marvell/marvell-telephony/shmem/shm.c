@@ -297,6 +297,11 @@ static int shm_param_init(enum shm_grp_type grp_type,
 
 		shm_rbctl[shm_rb_main].tx_total_size = addr->main_tx_total_size;
 		shm_rbctl[shm_rb_main].rx_total_size = addr->main_rx_total_size;
+		
+#ifdef CONFIG_SSIPC_SUPPORT
+		shm_rbctl[shm_rb_main].uuid_high = addr->uuid_high;
+		shm_rbctl[shm_rb_main].uuid_low = addr->uuid_low;
+#endif
 
 		shm_rbctl[shm_rb_main].tx_skbuf_num =
 			shm_rbctl[shm_rb_main].tx_total_size /
@@ -411,6 +416,10 @@ void shm_rb_data_init(struct shm_rbctl *rbctl)
 	memset(rbctl->skctl_va, 0, sizeof(struct shm_skctl));
 	rbctl->skctl_va->network_mode = network_mode;
 	rbctl->skctl_va->ap_pcm_master = PMIC_MASTER_FLAG;
+#ifdef CONFIG_SSIPC_SUPPORT
+	rbctl->skctl_va->uuid_high = rbctl->uuid_high;
+	rbctl->skctl_va->uuid_low = rbctl->uuid_low;
+#endif
 }
 
 void shm_lock_init(void)
@@ -442,6 +451,10 @@ static inline void shm_rb_dump(struct shm_rbctl *rbctl)
 		rbctl->rx_total_size, rbctl->rx_skbuf_size,
 		rbctl->rx_skbuf_num, rbctl->rx_skbuf_low_wm
 	);
+#ifdef CONFIG_SSIPC_SUPPORT
+	pr_info("\tuuid_high: 0x%08x, uuid_low: 0x%08x\n",
+			rbctl->uuid_high, rbctl->uuid_low);
+#endif
 }
 
 #if 0

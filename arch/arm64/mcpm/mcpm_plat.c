@@ -20,7 +20,12 @@
 #include <asm/compiler.h>
 #include <asm/io.h>
 #include <asm/smp_plat.h>
+#ifdef CONFIG_ARM64
 #include <asm/cpu_ops.h>
+#else
+#include <asm/opcodes-sec.h>
+#include <asm/opcodes-virt.h>
+#endif
 #include <asm/errno.h>
 #include <asm/cputype.h>
 #include <asm/mcpm.h>
@@ -226,12 +231,21 @@ void mcpm_dump_dbg_info(int cpu, int cluster)
 static noinline int __invoke_mcpm_fn_hvc(u64 function_id, u64 arg0, u64 arg1,
 					 u64 arg2)
 {
+#ifdef CONFIG_ARM64
 	asm volatile(
 			__asmeq("%0", "x0")
 			__asmeq("%1", "x1")
 			__asmeq("%2", "x2")
 			__asmeq("%3", "x3")
 			"hvc	#0\n"
+#else
+	asm volatile(
+			__asmeq("%0", "r0")
+			__asmeq("%1", "r1")
+			__asmeq("%2", "r2")
+			__asmeq("%3", "r3")
+			__HVC(0)
+#endif
 		: "+r" (function_id)
 		: "r" (arg0), "r" (arg1), "r" (arg2));
 
@@ -241,12 +255,21 @@ static noinline int __invoke_mcpm_fn_hvc(u64 function_id, u64 arg0, u64 arg1,
 static noinline int __invoke_mcpm_fn_smc(u64 function_id, u64 arg0, u64 arg1,
 					 u64 arg2)
 {
+#ifdef CONFIG_ARM64
 	asm volatile(
 			__asmeq("%0", "x0")
 			__asmeq("%1", "x1")
 			__asmeq("%2", "x2")
 			__asmeq("%3", "x3")
 			"smc	#0\n"
+#else
+	asm volatile(
+			__asmeq("%0", "r0")
+			__asmeq("%1", "r1")
+			__asmeq("%2", "r2")
+			__asmeq("%3", "r3")
+			__SMC(0)
+#endif
 		: "+r" (function_id)
 		: "r" (arg0), "r" (arg1), "r" (arg2));
 
@@ -480,6 +503,20 @@ static void mcpm_plat_pm_powered_up(void)
 
 	mcpm_dump_dbg_info(cpu, cluster);
 }
+
+#ifdef CONFIG_ARM
+/*
+ * The function is used in the last step of cpu_hotplug if mcpm_smp_ops.cpu_kill
+ * is defined (We don't need it in 3.10 kernel since cpu_kill is undefined). It
+ * can be used to do the powering off and/or cutting of clocks to the dying cpu.
+ * Currently we do nothing in it. In the future, maybe it can be used to check
+ * if the cpu is trully powered off.
+ */
+static int mcpm_plat_pm_power_down_finish(unsigned int cpu, unsigned int cluster)
+{
+	return 0;
+}
+#endif
 
 /**
  * mmp_platform_power_register - register platform power ops

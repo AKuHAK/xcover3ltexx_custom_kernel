@@ -402,8 +402,12 @@ static void __init helanx_reserve(void)
 	mmp_reserve_fbmem();
 	mmp_reserve_gpumem();
 	mmp_reserve_cp();
+#ifdef CONFIG_SEC_LOG
 	mmp_reserve_seclogmem();
+#endif
+#ifdef CONFIG_SEC_DEBUG
 	mmp_reserve_sec_ftrace_mem();
+#endif
 
 #ifdef CONFIG_MRVL_LOG
 	pxa_reserve_logmem();

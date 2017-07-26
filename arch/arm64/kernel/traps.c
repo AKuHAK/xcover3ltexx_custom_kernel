@@ -39,7 +39,10 @@
 #include <asm/exception.h>
 #include <asm/system_misc.h>
 #include <asm/esr.h>
-
+#ifdef CONFIG_SEC_DEBUG
+#include <linux/sec-debug.h>
+#include <linux/arm-coresight.h>
+#endif
 #ifdef CONFIG_PXA_RAMDUMP
 #include "linux/ramdump.h"
 #endif
@@ -231,6 +234,10 @@ static DEFINE_RAW_SPINLOCK(die_lock);
  */
 void die(const char *str, struct pt_regs *regs, int err)
 {
+#ifdef CONFIG_SEC_DEBUG
+	arch_stop_trace();
+	stop_ftracing();
+#endif
 	struct thread_info *thread = current_thread_info();
 	int ret;
 

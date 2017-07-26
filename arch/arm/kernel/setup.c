@@ -88,8 +88,10 @@ EXPORT_SYMBOL(cacheid);
 
 unsigned int __atags_pointer __initdata;
 
+#ifndef CONFIG_MACH_PXA_SAMSUNG
 unsigned int system_rev;
 EXPORT_SYMBOL(system_rev);
+#endif
 
 unsigned int system_serial_low;
 EXPORT_SYMBOL(system_serial_low);

@@ -1039,6 +1039,16 @@ config TOUCHSCREEN_IST30XXC
 		To compile this driver as a module, choose M here: the
 		module will be called ist30xxc.
 
+config TOUCHSCREEN_CYTTSP5
+	tristate "Cypress CYTTSP5 touchscreen"
+	depends on I2C
+	help
+		Say Y here if you have a touchscreen using the CYTTSP5.
+
+		If unsure, say N.
+
+		To compile this driver as a module, choose M here: the
+		module will be called cyttsp5.
 
 config TOUCHSCREEN_BT541
 	tristate "Zinitix BT541C touchscreen"
@@ -1050,5 +1060,16 @@ config TOUCHSCREEN_BT541
 
 		To compile this driver as a module, choose M here: the
 		module will be called bt541_ts.
+		
+config TOUCHSCREEN_MMS438
+	tristate "Melfas MMS438 touchscreen"
+	depends on I2C
+	help
+		Say Y here if you have a touchscreen using the MMS438.
+
+		If unsure, say N.
+
+		To compile this driver as a module, choose M here: the
+		module will be called cyttsp5.
 
 endif

@@ -336,3 +336,9 @@ config CHARGER_88PM886
 	depends on MFD_88PM88X
 	help
 	  Say Y here to enable charger for Marvell 88PM88X chip.
+
+config STORE_MODE
+       bool "enable store mode"
+       default n
+       help
+	 Say Y to enable CONFIG_STORE_MODE
