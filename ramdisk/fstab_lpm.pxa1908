@@ -32,5 +32,5 @@
 ## filesystem marked with check.
 ##
 ##
-/dev/block/platform/soc.2/by-name/SYSTEM   /system    ext4      ro,noatime,errors=panic                                                   wait
+/dev/block/platform/soc.2/by-name/SYSTEM   /system    ext4      ro,errors=panic                                                   wait
 /dev/block/platform/soc.2/by-name/EFS      /efs       ext4      nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  wait,check

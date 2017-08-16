@@ -22,13 +22,22 @@ script:
  - make $DEFCONFIG
  - make -j2 --silent
  - mkimage -A arm64 -O linux -T kernel -C gzip -a 01000000 -e 01000000 -d arch/arm64/boot/Image.gz -n "pxa1928dkb linux" arch/arm64/boot/uImage
- - ./mkbootfs ramdisk | gzip  > ramdisk-out.cpio.gz
  - ./pxa1908-dtbtool -o dtb.img -p scripts/dtc/ arch/arm64/boot/dts/ -v
- - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
+ - mkdir non_rooted
+ - ./mkbootfs ramdisk | gzip  > non_rooted/ramdisk-out.cpio.gz
+ - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk non_rooted/ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
  - echo "SEANDROIDENFORCE" >> boot.img
  - tar -H ustar -c boot.img > boot.tar
  - md5sum -t boot.tar >> boot.tar
- - mv boot.tar boot.tar.md5
+ - mv boot.tar non_rooted/boot.tar.md5
+ - mkdir supersu
+ - patch -i supersu_ramdisk.diff
+ - ./mkbootfs ramdisk | gzip  > supersu/ramdisk-out.cpio.gz
+ - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk supersu/ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
+ - echo "SEANDROIDENFORCE" >> boot.img
+ - tar -H ustar -c boot.img > boot.tar
+ - md5sum -t boot.tar >> boot.tar
+ - mv boot.tar supersu/boot.tar.md5
 after_script:
  - curl --upload-file boot.tar.md5 https://transfer.sh/boot.tar.md5 | grep transfer
 

@@ -1,9 +1,0 @@
-+ init.supersu.rc
-+ sbin/launch_daemonsu.sh
-+ su
-* fstab.pxa1908 0000_fstab.pxa1908
-* fstab_lpm.pxa1908 0001_fstab_lpm.pxa1908
-* init.environ.rc 0002_init.environ.rc
-* init.rc 0003_init.rc
-* sepolicy 0004_sepolicy
-
