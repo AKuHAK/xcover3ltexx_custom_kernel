@@ -30,14 +30,17 @@ script:
  - tar -H ustar -c boot.img > boot.tar
  - md5sum -t boot.tar >> boot.tar
  - mv boot.tar non_rooted/boot.tar.md5
+ - zip non_rooted.zip non_rooted/boot.tar.md5
  - mkdir supersu
- - patch -i supersu_ramdisk.diff
+ - cd ramdisk && git apply ../supersu_ramdisk.diff && cd ..
  - ./mkbootfs ramdisk | gzip  > supersu/ramdisk-out.cpio.gz
  - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk supersu/ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
  - echo "SEANDROIDENFORCE" >> boot.img
  - tar -H ustar -c boot.img > boot.tar
  - md5sum -t boot.tar >> boot.tar
  - mv boot.tar supersu/boot.tar.md5
+ - zip supersu.zip supersu/boot.tar.md5
 after_script:
- - curl --upload-file boot.tar.md5 https://transfer.sh/boot.tar.md5 | grep transfer
+ - curl --upload-file non_rooted.zip https://transfer.sh/non_rooted.zip | grep transfer
+ - curl --upload-file supersu.zip https://transfer.sh/supersu.zip | grep transfer
 

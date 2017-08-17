@@ -1,5 +1,5 @@
-diff -uarN ../ramdisk/fstab_lpm.pxa1908 ramdisk/fstab_lpm.pxa1908
---- ../ramdisk/fstab_lpm.pxa1908	2017-08-16 16:44:26.871854600 +0300
+diff -uarN ramdisk/fstab_lpm.pxa1908 ramdisk/fstab_lpm.pxa1908
+--- ramdisk/fstab_lpm.pxa1908	2017-08-16 16:44:26.871854600 +0300
 +++ ramdisk/fstab_lpm.pxa1908	2017-08-16 16:45:13.283461600 +0300
 @@ -32,5 +32,5 @@
  ## filesystem marked with check.
@@ -8,8 +8,8 @@ diff -uarN ../ramdisk/fstab_lpm.pxa1908 ramdisk/fstab_lpm.pxa1908
 -/dev/block/platform/soc.2/by-name/SYSTEM   /system    ext4      ro,errors=panic                                                   wait
 +/dev/block/platform/soc.2/by-name/SYSTEM   /system    ext4      ro,noatime,errors=panic                                                   wait
  /dev/block/platform/soc.2/by-name/EFS      /efs       ext4      nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  wait,check
-diff -uarN ../ramdisk/fstab.pxa1908 ramdisk/fstab.pxa1908
---- ../ramdisk/fstab.pxa1908	2017-08-16 16:44:26.867576300 +0300
+diff -uarN ramdisk/fstab.pxa1908 ramdisk/fstab.pxa1908
+--- ramdisk/fstab.pxa1908	2017-08-16 16:44:26.867576300 +0300
 +++ ramdisk/fstab.pxa1908	2017-08-16 16:45:13.278176600 +0300
 @@ -32,7 +32,7 @@
  ## filesystem marked with check.
@@ -20,8 +20,8 @@ diff -uarN ../ramdisk/fstab.pxa1908 ramdisk/fstab.pxa1908
  /dev/block/platform/soc.2/by-name/CACHE     /cache        ext4      nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  wait,check
  /dev/block/platform/soc.2/by-name/USER      /data         ext4      nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  wait,check,encryptable=footer
  /dev/block/platform/soc.2/by-name/EFS       /efs          ext4      nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  wait,check
-diff -uarN ../ramdisk/init.environ.rc ramdisk/init.environ.rc
---- ../ramdisk/init.environ.rc	2017-08-16 16:44:26.892580900 +0300
+diff -uarN ramdisk/init.environ.rc ramdisk/init.environ.rc
+--- ramdisk/init.environ.rc	2017-08-16 16:44:26.892580900 +0300
 +++ ramdisk/init.environ.rc	2017-08-16 16:45:13.287973300 +0300
 @@ -1,6 +1,6 @@
  # set up the global environment
@@ -31,8 +31,8 @@ diff -uarN ../ramdisk/init.environ.rc ramdisk/init.environ.rc
      export ANDROID_BOOTLOGO 1
      export ANDROID_ROOT /system
      export ANDROID_ASSETS /system/app
-diff -uarN ../ramdisk/init.rc ramdisk/init.rc
---- ../ramdisk/init.rc	2017-08-16 16:44:26.931861200 +0300
+diff -uarN ramdisk/init.rc ramdisk/init.rc
+--- ramdisk/init.rc	2017-08-16 16:44:26.931861200 +0300
 +++ ramdisk/init.rc	2017-08-16 16:45:13.292747700 +0300
 @@ -11,6 +11,7 @@
  import /init.trace.rc
@@ -72,8 +72,8 @@ diff -uarN ../ramdisk/init.rc ramdisk/init.rc
  
 +# SuperSU:PATCH:282
 +# SuperSU:STOCK:0620834e5ca3c5abaa01190060eb7716d71f7208
-diff -uarN ../ramdisk/init.supersu.rc ramdisk/init.supersu.rc
---- ../ramdisk/init.supersu.rc	1970-01-01 02:00:00.000000000 +0200
+diff -uarN ramdisk/init.supersu.rc ramdisk/init.supersu.rc
+--- ramdisk/init.supersu.rc	1970-01-01 02:00:00.000000000 +0200
 +++ ramdisk/init.supersu.rc	2017-08-16 16:45:13.297715500 +0300
 @@ -0,0 +1,17 @@
 +# earliest possible SuperSU daemon launch, with fallback to service
@@ -93,8 +93,8 @@ diff -uarN ../ramdisk/init.supersu.rc ramdisk/init.supersu.rc
 +    user root
 +    seclabel u:r:init:s0
 +    oneshot
-diff -uarN ../ramdisk/sbin/launch_daemonsu.sh ramdisk/sbin/launch_daemonsu.sh
---- ../ramdisk/sbin/launch_daemonsu.sh	1970-01-01 02:00:00.000000000 +0200
+diff -uarN ramdisk/sbin/launch_daemonsu.sh ramdisk/sbin/launch_daemonsu.sh
+--- ramdisk/sbin/launch_daemonsu.sh	1970-01-01 02:00:00.000000000 +0200
 +++ ramdisk/sbin/launch_daemonsu.sh	2017-08-16 16:45:13.302282000 +0300
 @@ -0,0 +1,307 @@
 +#!/system/bin/sh
@@ -404,8 +404,8 @@ diff -uarN ../ramdisk/sbin/launch_daemonsu.sh ramdisk/sbin/launch_daemonsu.sh
 +  fi
 +  log_print "end"
 +fi
-diff -uarN ../ramdisk/sepolicy ramdisk/sepolicy
---- ../ramdisk/sepolicy	2017-08-16 16:44:27.514874200 +0300
+diff -uarN ramdisk/sepolicy ramdisk/sepolicy
+--- ramdisk/sepolicy	2017-08-16 16:44:27.514874200 +0300
 +++ ramdisk/sepolicy	2017-08-16 16:45:13.312242500 +0300
 @@ -1,4 +1,4 @@
 -åˇ|˘   SE Linux            @   @                 @                             socket   
@@ -4669,8 +4669,8 @@ diff -uarN ../ramdisk/sepolicy ramdisk/sepolicy
     @                @Ç@      Ä  ëA      @        Ä     (2  ¿              @    @       † ¿         @                @Ç@      Ä  ëA      @         Ä     (2  ¿         ¿         @                @Ç@      Ä  ëA      @     @   Ä     (2  ¿         ¿         @                @Ç@      Ä  ëA      @     Ä   Ä     (2  ¿         ¿         @   ¿  
     @          Ä         ¿          ¿          Ä    P   ¿       @  @         Ä     Ä              Ä         @      
     @                 Ç@       Ä  ëA      @        Ä     (2  ¿         @         Ä  ¿      ¿  @      @   ¿                ¿                  Ä         ¿      êà   êH      @         Ä         @   ¿                ¿                  Ä         ¿      êà   êH      @         Ä         @                             Ä         ¿      êà   êH     @  
-diff -uarN ../ramdisk/su/index ramdisk/su/index
---- ../ramdisk/su/index	1970-01-01 02:00:00.000000000 +0200
+diff -uarN ramdisk/su/index ramdisk/su/index
+--- ramdisk/su/index	1970-01-01 02:00:00.000000000 +0200
 +++ ramdisk/su/index	2017-08-16 16:45:13.316881000 +0300
 @@ -0,0 +1,9 @@
 ++ init.supersu.rc
