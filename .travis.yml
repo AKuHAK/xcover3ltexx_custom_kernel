@@ -1,3 +1,13 @@
+# upload in releases if branch is tagged
+deploy:
+  provider: releases
+  api_key: $APIKEY
+  file: rooted_$TRAVIS_COMMIT.zip
+  skip_cleanup: true
+  on:
+    tags: true
+all_branches: true
+
 sudo: required
 dist: trusty
 before_install:
@@ -39,8 +49,8 @@ script:
  - tar -H ustar -c boot.img > boot.tar
  - md5sum -t boot.tar >> boot.tar
  - mv boot.tar supersu/boot.tar.md5
- - zip supersu.zip supersu/boot.tar.md5
+ - zip rooted_$TRAVIS_COMMIT.zip supersu/boot.tar.md5
 after_script:
  - curl --upload-file non_rooted.zip https://transfer.sh/non_rooted.zip | grep transfer
- - curl --upload-file supersu.zip https://transfer.sh/supersu.zip | grep transfer
+ - curl --upload-file rooted_$TRAVIS_COMMIT.zip https://transfer.sh/rooted_$TRAVIS_COMMIT.zip | grep transfer
 
