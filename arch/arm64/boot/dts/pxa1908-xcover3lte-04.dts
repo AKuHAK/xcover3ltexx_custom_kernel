@@ -1398,7 +1398,7 @@
 			compatible = "marvell,map-dailink-7";
 			dai-name = "MAP I2S3 audio";
 			stream-name = "map i2s3";
-			marvell,cpu-dai = <&mmp_pcm_hostless 0>;
+			marvell,cpu-dai = <&mmp_pcm_hostless 1>;
 			marvell,codec-dai = <&mmp_map_codec 3>;
 			marvell,dai-dynamic;
 			marvell,dai-no-host-mode;
@@ -1588,7 +1588,7 @@
 		vccmain = <950000 800000>;
 		vm3pwr-supply = <&ldo3>;
 		antpwr-supply = <&ldo4>;
-		vccmain-supply = <&vccmain>;
+		vccmain-supply = <&buck1slp>;
 
 		pinctrl-names = "default", "poweron";
 		pinctrl-0 = <&gnss_pmx_def>;

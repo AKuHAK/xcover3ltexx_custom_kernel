@@ -1541,7 +1541,7 @@
 		vccmain = <950000 800000>;
 		vm3pwr-supply = <&ldo3>;
 		antpwr-supply = <&ldo4>;
-		vccmain-supply = <&vccmain>;
+		vccmain-supply = <&buck1slp>;
 
 		pinctrl-names = "default", "poweron";
 		pinctrl-0 = <&gnss_pmx_def>;
