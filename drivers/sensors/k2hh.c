@@ -161,9 +161,6 @@ struct k2hh_p {
 	struct work_struct work_accel;
 	ktime_t poll_delay;
 	atomic_t enable;
-#if defined(CONFIG_SENSORS_K2HH_HAS_REGULATOR)
-	struct regulator *reg_vdd;
-#endif
 
 	int recog_flag;
 	int irq1;
@@ -225,30 +222,37 @@ static const struct iio_chan_spec k2hh_channels[] = {
 };
 #endif
 
-static int k2hh_regulator_onoff(struct k2hh_p *data, bool onoff)
+static int k2hh_regulator_onoff(struct device *dev, bool onoff)
 {
+	struct regulator *vdd;
 	int ret = 0;
 
 	pr_info("[SENSOR] %s\n", __func__);
 
 #if defined(CONFIG_SENSORS_K2HH_HAS_REGULATOR)
-	if (IS_ERR(data->reg_vdd)) {
-		pr_err("[SENSOR] %s: no vdd regulator\n", __func__);
-		return ret;
+	vdd = devm_regulator_get(dev, "stm,reg_vdd");
+	if (IS_ERR(vdd)) {
+		pr_err("[SENSOR] %s, could not get vdd, %ld\n",
+			__func__, PTR_ERR(vdd));
+		ret = -ENOMEM;
+		goto err_vdd;
 	}
 
+	regulator_set_voltage(vdd, 2850000, 2850000);
+
 	if (onoff) {
-		ret = regulator_enable(data->reg_vdd);
+		ret = regulator_enable(vdd);
 		if (ret)
 			pr_err("[SENSOR] %s: Failed to enable vdd.\n",
 				__func__);
 		msleep(30);
 	} else {
-		ret = regulator_disable(data->reg_vdd);
+		ret = regulator_disable(vdd);
 		if (ret)
 			pr_err("[SENSOR] %s: Failed to disable vdd.\n",
 				__func__);
 	}
+err_vdd:
 #endif
 
 	return ret;
@@ -648,7 +652,7 @@ static void k2hh_work_func(struct work_struct *work)
 	struct iio_dev *indio_dev = iio_priv_to_dev(data);
 	u8 buf[IIO_BUFFER_6_BYTES];
 #else
-	u64 timestamp;
+	u64 timestamp ;
 	int time_hi, time_lo;
 #endif
 	int ret;
@@ -669,8 +673,9 @@ static void k2hh_work_func(struct work_struct *work)
 
 	iio_push_to_buffers(indio_dev, buf);
 #else
-	if (((timestamp_new - data->old_timestamp) > (ktime_to_ms(data->poll_delay) * 1800000LL))
-		&& (data->old_timestamp != 0)) {
+	if (((timestamp_new - data->old_timestamp) > (ktime_to_ms(data->poll_delay) * 1800000LL))\
+		&& (data->old_timestamp != 0))
+	{
 		timestamp = (timestamp_new + data->old_timestamp) >>  1;
 		time_hi = (int)((timestamp & TIME_HI_MASK) >> TIME_HI_SHIFT);
 		time_lo = (int)(timestamp & TIME_LO_MASK);
@@ -743,7 +748,7 @@ static ssize_t k2hh_enable_store(struct device *dev,
 	if (enable) {
 		if (pre_enable == OFF) {
 			data->old_timestamp = 0LL;
-			k2hh_regulator_onoff(data, true);
+			k2hh_regulator_onoff(&data->client->dev, true);
 			k2hh_open_calibration(data);
 			k2hh_set_range(data, K2HH_RANGE_4G);
 			k2hh_set_bw(data);
@@ -758,7 +763,7 @@ static ssize_t k2hh_enable_store(struct device *dev,
 			k2hh_set_mode(data, K2HH_MODE_SUSPEND);
 			k2hh_set_enable(data, OFF);
 
-			k2hh_regulator_onoff(data, false);
+			k2hh_regulator_onoff(&data->client->dev, false);
 		}
 	}
 
@@ -1413,22 +1418,7 @@ static int k2hh_parse_dt(struct k2hh_p *data, struct device *dev)
 	} else
 		data->negate_z = (u8)temp;
 
-#if defined(CONFIG_SENSORS_K2HH_HAS_REGULATOR)
-	data->reg_vdd = devm_regulator_get(dev, "stm,reg_vdd");
-	if (IS_ERR(data->reg_vdd)) {
-		pr_err("%s, could not get vdd, %ld\n",
-			__func__, PTR_ERR(data->reg_vdd));
-	} else {
-		ret = regulator_set_voltage(data->reg_vdd, 2850000, 2850000);
-		if (ret) {
-			pr_err("%s: set voltage failed on vdd, rc=%d\n",
-				__func__, ret);
-			devm_regulator_put(data->reg_vdd);
-		}
-	}
-#endif
-
-	return ret;
+	return 0;
 }
 
 
@@ -1448,6 +1438,31 @@ static int k2hh_probe(struct i2c_client *client,
 		pr_err("[SENSOR]: %s - i2c_check_functionality error\n",
 			__func__);
 		goto exit;
+	}
+
+	ret = k2hh_regulator_onoff(&client->dev, true);
+	if (ret < 0) {
+		pr_err("[SENSOR]: %s - No regulator\n", __func__);
+		goto exit_no_regulator;
+	}
+
+	/* Check if the device is there or not. */
+	for (i = 0; i < CHIP_ID_RETRIES; i++) {
+		ret = k2hh_i2c_read(client, WHOAMI_REG, &temp, 1);
+		if (temp != K2HH_CHIP_ID) {
+			pr_err("[SENSOR]: %s - chip id failed 0x%x : %d\n",
+				__func__, temp, ret);
+		} else {
+			pr_info("[SENSOR]: %s - chip id success 0x%x\n",
+				__func__, temp);
+			break;
+		}
+		msleep(20);
+	}
+
+	if (i >= CHIP_ID_RETRIES) {
+		ret = -ENODEV;
+		goto exit_read_chipid;
 	}
 
 #if defined(CONFIG_SENSORS_IIO)
@@ -1480,31 +1495,6 @@ static int k2hh_probe(struct i2c_client *client,
 		pr_err("[SENSOR]: %s - of_node error\n", __func__);
 		ret = -ENODEV;
 		goto exit_of_node;
-	}
-
-	ret = k2hh_regulator_onoff(data, true);
-	if (ret < 0) {
-		pr_err("[SENSOR]: %s - No regulator\n", __func__);
-		goto exit_no_regulator;
-	}
-
-	/* Check if the device is there or not. */
-	for (i = 0; i < CHIP_ID_RETRIES; i++) {
-		ret = k2hh_i2c_read(client, WHOAMI_REG, &temp, 1);
-		if (temp != K2HH_CHIP_ID) {
-			pr_err("[SENSOR]: %s - chip id failed 0x%x : %d\n",
-				__func__, temp, ret);
-		} else {
-			pr_info("[SENSOR]: %s - chip id success 0x%x\n",
-				__func__, temp);
-			break;
-		}
-		msleep(20);
-	}
-
-	if (i >= CHIP_ID_RETRIES) {
-		ret = -ENODEV;
-		goto exit_read_chipid;
 	}
 
 	ret = k2hh_setup_pin(data);
@@ -1582,7 +1572,7 @@ static int k2hh_probe(struct i2c_client *client,
 	k2hh_set_mode(data, K2HH_MODE_SUSPEND);
 
 	/*power off the regulators, for next enable power will be on*/
-	ret = k2hh_regulator_onoff(data, false);
+	ret = k2hh_regulator_onoff(&client->dev, false);
 
 	pr_info("[SENSOR]: %s - Probe done!\n", __func__);
 
@@ -1608,14 +1598,14 @@ exit_input_init:
 	wake_lock_destroy(&data->reactive_wake_lock);
 	gpio_free(data->acc_int1);
 exit_setup_pin:
-exit_read_chipid:
-	k2hh_regulator_onoff(data, false);
-exit_no_regulator:
 exit_of_node:
 #if !defined(CONFIG_SENSORS_IIO)
 	kfree(data);
 #endif
 exit_mem_alloc:
+exit_read_chipid:
+	k2hh_regulator_onoff(&client->dev, false);
+exit_no_regulator:
 exit:
 	pr_err("[SENSOR]: %s - Probe fail!\n", __func__);
 	return ret;
