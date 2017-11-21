@@ -42,6 +42,7 @@ script:
  - mv boot.tar non_rooted/boot.tar.md5
  - zip non_rooted.zip non_rooted/boot.tar.md5
  - mkdir supersu
+ - cp -rf sepolicy ramdisk/
  - cd ramdisk && git apply ../supersu_ramdisk.diff && cd ..
  - ./mkbootfs ramdisk | gzip  > supersu/ramdisk-out.cpio.gz
  - ./pxa-mkbootimg --kernel arch/arm64/boot/uImage --ramdisk supersu/ramdisk-out.cpio.gz --dt dtb.img --unknown 0x03000000 -o boot.img
