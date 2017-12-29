@@ -201,7 +201,6 @@ vendor.enea.Buffer_GL                       u:object_r:surfaceflinger_service:s0
 batterymanager                              u:object_r:system_app_service:s0
 clipboarduiservice                          u:object_r:system_app_service:s0
 com.sc.scservice.ISCServiceFactory          u:object_r:system_app_service:s0
-com.sc.scservicedownloadable.ISCServiceFactory u:object_r:system_app_service:s0
 emergency_service                           u:object_r:system_app_service:s0
 fingerprint_service                         u:object_r:system_app_service:s0
 ImsBase                                     u:object_r:system_app_service:s0
@@ -241,7 +240,6 @@ DPU                                         u:object_r:system_server_service:s0
 dualscreen                                  u:object_r:system_server_service:s0
 edge                                        u:object_r:system_server_service:s0
 emailksproxy                                u:object_r:system_server_service:s0
-EngineeringModeService                      u:object_r:system_server_service:s0
 epdg                                        u:object_r:system_server_service:s0
 execute                                     u:object_r:system_server_service:s0
 EXT_CONTROL_DEVICE_SERVICE                  u:object_r:system_server_service:s0
@@ -251,7 +249,6 @@ firewall                                    u:object_r:system_server_service:s0
 gamemanager                                 u:object_r:system_server_service:s0
 harmony_eas_service                         u:object_r:system_server_service:s0
 healthcover                                 u:object_r:system_server_service:s0
-hongbao_mode_service                        u:object_r:system_server_service:s0
 injection                                   u:object_r:system_server_service:s0
 keyguard                                    u:object_r:system_server_service:s0
 kiesusb                                     u:object_r:system_server_service:s0

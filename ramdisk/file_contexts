@@ -1042,7 +1042,6 @@
 /dev/usb.*	u:object_r:usb_device:s0
 /dev/usb/tty.*	u:object_r:usb_device:s0
 /dev/usb_mtp_gadget.*	u:object_r:mtp_device:s0
-/dev/uwb        u:object_r:uwb_device:s0
 /dev/validity(/.*)?	u:object_r:validity_device:s0
 /dev/vfsspi	u:object_r:vfsspi_device:s0
 /dev/video4[0-9]        u:object_r:camera_device:s0
@@ -1116,7 +1115,6 @@
 /dev/msm_wma	u:object_r:audio_device:s0
 /dev/msm_wmapro	u:object_r:audio_device:s0
 /dev/msm_wma_pro	u:object_r:audio_device:s0
-/dev/msm-buspm-dev	u:object_r:bus_test_device:s0
 /dev/network_latency	u:object_r:radio_device:s0
 /dev/network_throughput	u:object_r:radio_device:s0
 /dev/nmea	u:object_r:radio_device:s0
